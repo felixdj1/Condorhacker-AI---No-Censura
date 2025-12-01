@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condorhacker AI - Team di Esperti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg: #0a0f1e;
+            --card: #131b2e;
+            --accent: #00f0ff;
+            --muted: #8b9bb4;
+            --success: #00d4aa;
+            --danger: #ff0000;
+            --neon-glow: 0 0 10px rgba(0, 240, 255, 0.7);
+            --danger-glow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: white;
+        }
+
+        .status-badge {
+            font-size: 0.5em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .status-locked {
+            border: 1px solid var(--muted);
+            color: var(--muted);
+            box-shadow: none;
+        }
+
+        .status-unlocked {
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            text-shadow: var(--danger-glow);
+            box-shadow: var(--danger-glow);
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0% { opacity: 0.8; box-shadow: 0 0 0 0 rgba(255,0,0,0.4); }
+            50% { opacity: 1; box-shadow: 0 0 10px 5px rgba(255,0,0,0.1); }
+            100% { opacity: 0.8; box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .unlock-btn {
+            background: rgba(255, 0, 0, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .unlock-btn:hover {
+            background: var(--danger);
+            color: white;
+            box-shadow: var(--danger-glow);
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+        
+        .hero p {
+            font-size: 1.3em;
+            color: var(--muted);
+            margin-bottom: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .credit-info {
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--success);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            font-weight: 600;
+        }
+        
+        /* Avatars Section */
+        .avatars-section {
+            padding: 40px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 50px;
+            font-size: 1.2em;
+        }
+        
+        .avatars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .avatar-card {
+            background: linear-gradient(135deg, var(--card), #0d1525);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+        }
+        
+        .avatar-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 240, 255, 0.2);
+        }
+        
+        .avatar-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--success));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            color: var(--bg);
+            box-shadow: var(--neon-glow);
+        }
+        
+        .avatar-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .avatar-role {
+            color: var(--accent);
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .avatar-description {
+            color: var(--muted);
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            min-height: 60px;
+        }
+        
+        .consult-btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .consult-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+            box-shadow: var(--neon-glow);
+        }
+        
+        .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .expertise-tag {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            padding: 60px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 60px;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(145deg, #1a0f0f, #2d0a0a);
+            border: 1px solid #ff0000;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(255,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card::after {
+            content: "ELITE ONLY";
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #ff0000;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--muted);
+        }
+        
+        /* Chat Interface Styles (Initially Hidden) */
+        #chat-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2em;
+            }
+            
+            .avatars-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="home-view" class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo" onclick="window.location.reload()">
+                Condor<span>hacker</span>.AI 
+                <div id="header-badge" class="status-badge status-locked">
+                    <i class="fa-solid fa-lock"></i> LIMITED
+                </div>
+            </div>
+            <nav>
+                <div class="nav-links hidden md:flex">
+                    <a href="#" onclick="return false;">Home</a>
+                    <a href="#" onclick="return false;">Agenti</a>
+                    <a href="#" onclick="return false;">Dashboard</a>
+                </div>
+                <button onclick="app.openPinModal()" id="btn-unlock-header" class="unlock-btn">
+                    <i class="fa-solid fa-key"></i> Sblocca Condor
+                </button>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Team di 15 Esperti Specializzati</h1>
+            <p id="hero-subtitle">Consulenza professionale AI. Sblocca il "Protocollo Condor" per risposte senza censura.</p>
+            <div class="credit-info" id="credit-display">🪙 3 crediti disponibili</div>
+        </section>
+
+        <!-- Avatars Section -->
+        <section class="avatars-section">
+            <h2 class="section-title">I Nostri Esperti</h2>
+            <p class="section-subtitle">Clicca per consultare. Il lucchetto indica la modalità limitata.</p>
+            
+            <div class="avatars-grid" id="agents-grid-container">
+                <!-- Agents generated via JS -->
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <h2 class="section-title text-red-500" style="text-shadow: var(--danger-glow);">Protocollo Condor</h2>
+            <p class="section-subtitle">Accesso esclusivo senza limiti.</p>
+            
+            <div class="pricing-card">
+                <h3 class="text-2xl font-bold mb-2 text-white">Membership Premium</h3>
+                <div class="text-4xl font-bold text-red-500 mb-4">€200<span class="text-lg text-gray-400">/mese</span></div>
+                <ul class="text-left text-gray-300 space-y-3 mb-6 mx-auto max-w-xs">
+                    <li><i class="fa-solid fa-check text-red-500 mr-2"></i> 15 Esperti No-Censura</li>
+                    <li><i class="fa-solid fa-check text-red-500 mr-2"></i> Accesso 360° senza limiti</li>
+                    <li><i class="fa-solid fa-check text-red-500 mr-2"></i> PIN Esclusivo</li>
+                    <li><i class="fa-solid fa-check text-red-500 mr-2"></i> Priorità Assoluta</li>
+                </ul>
+                <button onclick="app.openPinModal()" class="w-full bg-gradient-to-r from-red-800 to-red-600 text-white font-bold py-3 rounded-lg hover:from-red-700 hover:to-red-500 transition-all shadow-lg">
+                    Inserisci PIN
+                </button>
+                <p class="mt-4 text-xs text-gray-500">
+                    Non hai il PIN? Paga la quota e comunica la passphrase <strong>"CONDOR"</strong> per riceverlo.
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2024 Condorhacker AI. Tutti i diritti riservati.</p>
+            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Digitare "condor" per info.</p>
+        </footer>
+    </div>
+
+    <!-- Chat View Container -->
+    <div id="chat-view">
+        <div class="flex flex-col h-full max-w-7xl mx-auto w-full">
+            <!-- Header Chat -->
+            <div class="p-4 border-b border-gray-800 flex items-center justify-between bg-black/80 backdrop-blur">
+                <div class="flex items-center gap-4">
+                    <button onclick="app.goHome()" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-left text-xl"></i>
+                    </button>
+                    <div class="flex items-center gap-3">
+                        <div id="chat-agent-avatar" class="w-10 h-10 rounded-full flex items-center justify-center text-xl bg-gray-800 border border-cyan-500"></div>
+                        <div>
+                            <h3 id="chat-agent-name" class="font-bold text-lg text-white flex items-center gap-2">Nome Agente</h3>
+                            <p id="chat-agent-role" class="text-xs text-gray-400 uppercase tracking-wider font-bold">Standard Mode</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                     <button onclick="app.toggleSound()" id="btn-sound" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700 transition-colors text-white">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-grow p-6 overflow-y-auto space-y-6 scroll-smooth bg-gray-900/50">
+                <!-- Messages injected here -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-black/80 border-t border-gray-800 pb-8">
+                <form onsubmit="app.handleUserSubmit(event)" class="relative max-w-4xl mx-auto">
+                    <input type="text" id="user-input" 
+                        class="w-full bg-gray-900 text-white rounded-xl py-4 pl-6 pr-16 border border-gray-700 focus:border-cyan-500 focus:outline-none transition-all placeholder-gray-500"
+                        placeholder="Fai la tua domanda..." autocomplete="off">
+                    <button type="submit" class="absolute right-2 top-2 bottom-2 aspect-square bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 transition-colors flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN Modal -->
+    <div id="pin-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[3000] hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border-2 border-red-600 rounded-2xl p-8 max-w-md w-full text-center shadow-[0_0_50px_rgba(255,0,0,0.3)] relative">
+            <button onclick="document.getElementById('pin-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white">
+                <i class="fa-solid fa-times text-xl"></i>
+            </button>
+            
+            <i class="fa-solid fa-shield-cat text-6xl text-red-600 mb-6 animate-pulse"></i>
+            <h2 class="text-3xl font-bold mb-2 text-white uppercase tracking-widest">Accesso Riservato</h2>
+            <p class="text-red-400 mb-6 font-mono text-sm">PROTOCOLLO CONDOR: NO CENSURA</p>
+            
+            <p class="text-gray-400 mb-6 text-sm">
+                Inserisci il PIN per sbloccare la modalità senza limiti.
+                <br><span class="text-xs text-gray-500 mt-2 block">Costo abbonamento: €200/mese</span>
+            </p>
+
+            <form onsubmit="app.verifyPin(event)" class="space-y-4">
+                <input type="password" id="pin-input" 
+                    class="w-full bg-black text-center text-2xl text-red-500 font-mono tracking-[0.5em] rounded-lg py-3 border border-red-900 focus:border-red-500 focus:outline-none focus:shadow-[0_0_15px_rgba(255,0,0,0.3)]"
+                    placeholder="••••••" maxlength="10" autocomplete="off">
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-red-700 to-red-500 text-white font-bold py-3 rounded-lg hover:scale-[1.02] transition-transform shadow-lg uppercase tracking-wider">
+                    Sblocca Sistema
+                </button>
+            </form>
+
+            <div class="mt-6 pt-6 border-t border-gray-800">
+                <p class="text-xs text-gray-500 mb-2">Come ottenere il PIN?</p>
+                <div class="bg-black/50 p-3 rounded border border-gray-800 text-xs text-left">
+                    <ol class="list-decimal pl-4 space-y-1 text-gray-400">
+                        <li>Effettua il pagamento della quota mensile.</li>
+                        <li>Invia la passphrase <strong class="text-white">"CONDOR"</strong> all'amministratore.</li>
+                        <li>Riceverai il codice personale.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paywall Modal (Quota Superata / Upsell) -->
+    <div id="paywall-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[2000] hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-cyan-500 rounded-2xl p-8 max-w-md w-full text-center shadow-[0_0_50px_rgba(0,240,255,0.2)]">
+            <i class="fa-solid fa-lock text-6xl text-cyan-500 mb-6"></i>
+            <h2 class="text-3xl font-bold mb-4 text-white">Crediti Esauriti</h2>
+            <p class="text-gray-400 mb-8">Hai utilizzato i tuoi 3 crediti gratuiti. Per continuare ad accedere al Team CondorHacker, abbonati al piano Premium.</p>
+            <button onclick="window.open('https://gumroad.com', '_blank')" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-4 rounded-xl text-lg hover:scale-105 transition-transform mb-4 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                Abbonati - €200/mese
+            </button>
+            <button onclick="document.getElementById('paywall-modal').classList.add('hidden'); app.goHome()" class="text-gray-500 hover:text-white text-sm">
+                Torna alla Home
+            </button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
